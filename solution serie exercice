@@ -1,0 +1,311 @@
+intissar Lk🩷, [05/01/2025 11:13]
+Exo6
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct Node {
+    int data;
+    struct Node* next;
+} Node;
+
+Node* reverse(Node* head) {
+    Node* prev = NULL;
+    Node* current = head;
+    Node* next = NULL;
+    while (current) {
+        next = current->next;
+        current->next = prev;
+        prev = current;
+        current = next;
+    }
+    return prev;
+}
+
+Node* createNode(int data) {
+    Node* newNode = (Node*)malloc(sizeof(Node));
+    newNode->data = data;
+    newNode->next = NULL;
+    return newNode;
+}
+
+void printList(Node* head) {
+    while (head) {
+        printf("%d -> ", head->data);
+        head = head->next;
+    }
+    printf("NULL\n");
+}
+
+int main() {
+    Node* head = createNode(1);
+    head->next = createNode(2);
+    head->next->next = createNode(3);
+    head->next->next->next = createNode(4);
+
+    printf("Original List:\n");
+    printList(head);
+
+    head = reverse(head);
+
+    printf("Reversed List:\n");
+    printList(head);
+
+    return 0;
+}
+
+Exo7
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct Node {
+    int data;
+    struct Node* next;
+} Node;
+
+Node* merge(Node* left, Node* right) {
+    if (!left) return right;
+    if (!right) return left;
+    if (left->data <= right->data) {
+        left->next = merge(left->next, right);
+        return left;
+    } else {
+        right->next = merge(left, right->next);
+        return right;
+    }
+}
+
+void split(Node* source, Node front, Node back) {
+    Node* slow = source;
+    Node* fast = source->next;
+    while (fast) {
+        fast = fast->next;
+        if (fast) {
+            slow = slow->next;
+            fast = fast->next;
+        }
+    }
+    *front = source;
+    *back = slow->next;
+    slow->next = NULL;
+}
+
+void sort(Node** headRef) {
+    if (!*headRef || !(*headRef)->next) return;
+    Node* head = *headRef;
+    Node* left = NULL;
+    Node* right = NULL;
+    split(head, &left, &right);
+    sort(&left);
+    sort(&right);
+    *headRef = merge(left, right);
+}
+
+Node* createNode(int data) {
+    Node* newNode = (Node*)malloc(sizeof(Node));
+    newNode->data = data;
+    newNode->next = NULL;
+    return newNode;
+}
+
+void printList(Node* head) {
+    while (head) {
+        printf("%d -> ", head->data);
+        head = head->next;
+    }
+    printf("NULL\n");
+}
+
+int main() {
+    Node* head = createNode(4);
+    head->next = createNode(2);
+    head->next->next = createNode(1);
+    head->next->next->next = createNode(3);
+
+    printf("Original List:\n");
+    printList(head);
+
+    sort(&head);
+
+    printf("Sorted List:\n");
+    printList(head);
+
+    return 0;
+}
+
+Exo8
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct Node {
+    int data;
+    struct Node* next;
+} Node;
+
+Node* merge(Node* L1, Node* L2) {
+    if (!L1) return L2;
+    if (!L2) return L1;
+    if (L1->data <= L2->data) {
+        L1->next = merge(L1->next, L2);
+        return L1;
+    } else {
+        L2->next = merge(L1, L2->next);
+        return L2;
+    }
+}
+
+Node* createNode(int data) {
+    Node* newNode = (Node*)malloc(sizeof(Node));
+    newNode->data = data;
+    newNode->next = NULL;
+    return newNode;
+}
+
+void printList(Node* head) {
+    while (head) {
+        printf("%d -> ", head->data);
+        head = head->next;
+    }
+    printf("NULL\n");
+}
+
+int main() {
+    Node* L1 = createNode(1);
+    L1->next = createNode(3);
+    L1->next->next = createNode(5);
+
+    Node* L2 = createNode(2);
+    L2->next = createNode(4);
+    L2->next->next = createNode(6);
+
+    printf("List 1:\n");
+    printList(L1);
+
+    printf("List 2:\n");
+    printList(L2);
+
+    Node* mergedList = merge(L1, L2);
+
+    printf("Merged List:\n");
+    printList(mergedList);
+
+    return 0;
+}
+
+Exo9
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct Node {
+    int data;
+    struct Node* next;
+} Node;
+
+void remove_duplicates(Node* head) {
+
+    Node* current = head;
+
+intissar Lk🩷, [05/01/2025 11:13]
+    Node* temp;
+    while (current && current->next) {
+        if (current->data == current->next->data) {
+            temp = current->next;
+            current->next = current->next->next;
+            free(temp);
+        } else {
+            current = current->next;
+        }
+    }
+}
+
+Node* createNode(int data) {
+    Node* newNode = (Node*)malloc(sizeof(Node));
+    newNode->data = data;
+    newNode->next = NULL;
+    return newNode;
+}
+
+void printList(Node* head) {
+    while (head) {
+        printf("%d -> ", head->data);
+        head = head->next;
+    }
+    printf("NULL\n");
+}
+
+int main() {
+    Node* head = createNode(1);
+    head->next = createNode(2);
+    head->next->next = createNode(2);
+    head->next->next->next = createNode(3);
+    head->next->next->next->next = createNode(3);
+
+    printf("Original List:\n");
+    printList(head);
+
+    remove_duplicates(head);
+
+    printf("List After Removing Duplicates:\n");
+    printList(head);
+
+    return 0;
+}
+
+Exo10
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct Node {
+    int data;
+    struct Node* next;
+} Node;
+
+int findKthLargest(Node* head, int k) {
+    Node* current;
+    int max;
+    for (int i = 0; i < k; i++) {
+        current = head;
+        max = -2147483648;
+        Node* maxNode = NULL;
+        while (current) {
+            if (current->data > max) {
+                max = current->data;
+                maxNode = current;
+            }
+            current = current->next;
+        }
+        if (maxNode) maxNode->data = -2147483648;
+    }
+    return max;
+}
+
+Node* createNode(int data) {
+    Node* newNode = (Node*)malloc(sizeof(Node));
+    newNode->data = data;
+    newNode->next = NULL;
+    return newNode;
+}
+
+void printList(Node* head) {
+    while (head) {
+        printf("%d -> ", head->data);
+        head = head->next;
+    }
+    printf("NULL\n");
+}
+
+int main() {
+    Node* head = createNode(3);
+    head->next = createNode(1);
+    head->next->next = createNode(4);
+    head->next->next->next = createNode(1);
+    head->next->next->next->next = createNode(5);
+
+    printf("Original List:\n");
+    printList(head);
+
+    int k = 2;
+    int result = findKthLargest(head, k);
+    printf("The %d-th largest element is: %d\n", k, result);
+
+    return 0;
+}
