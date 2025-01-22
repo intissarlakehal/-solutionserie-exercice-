@@ -1,4 +1,4 @@
-intissar Lk🩷, [05/01/2025 11:13]
+
 Exo6
 #include <stdio.h>
 #include <stdlib.h>
@@ -204,7 +204,7 @@ void remove_duplicates(Node* head) {
 
     Node* current = head;
 
-intissar Lk🩷, [05/01/2025 11:13]
+
     Node* temp;
     while (current && current->next) {
         if (current->data == current->next->data) {
